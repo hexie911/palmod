@@ -49,7 +49,8 @@ jobs:
 
       - name: Locate project
         run: |
-          S=$(find . -name settings.gradle.kts -not -path './.git/*' | head -n 1)
+          if [ -f project.zip ]; then unzip -q -o project.zip -d _project; fi
+          S=$(find . -name settings.gradle.kts -not -path './.git/*' -not -path './_project/.git/*' | head -n 1)
           if [ -z "$S" ]; then
             echo "::error::settings.gradle.kts not found. Upload the CONTENTS of project.zip (unzipped), not the zip file itself."
             ls -R | head -50
